@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="AXSEM_SPI" />
+		<Option pch_mode="2" />
+		<Option compiler="sdcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/AXSEM_SPI.ihx" prefix_auto="1" extension_auto="0" />
+				<Option working_dir="bin/Debug" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="sdcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="--out-fmt-ihx" />
+					<Add option="--model-large" />
+					<Add option="-mmcs51" />
+					<Add option="--debug" />
+					<Add directory="Mcu" />
+					<Add directory="Port" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/AXSEM_SPI.ihx" prefix_auto="1" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="5" />
+				<Option compiler="sdcc" />
+				<Compiler>
+					<Add option="--opt-code-size" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-mmcs51" />
+			<Add option="--model-large" />
+		</Compiler>
+		<Linker>
+			<Add option="--xram-size 4096" />
+			<Add option="--iram-size 256" />
+			<Add option="--code-size 65536" />
+			<Add option="--out-fmt-ihx" />
+		</Linker>
+		<ExtraCommands>
+			<Add after='cmd /c &quot;packihx &lt;$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).ihx &gt;$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).hex&quot;' />
+		</ExtraCommands>
+		<Unit filename="Mcu/ax8052.h" />
+		<Unit filename="Mcu/ax8052f131.h" />
+		<Unit filename="Mcu/ax8052f142.h" />
+		<Unit filename="Mcu/ax8052f143.h" />
+		<Unit filename="Mcu/ax8052f151.h" />
+		<Unit filename="Mcu/ax8052regaddr.h" />
+		<Unit filename="Mcu/axcompiler.h" />
+		<Unit filename="Port/lmx_api.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Port/lmx_regs.h" />
+		<Unit filename="Port/port.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Port/port.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debuggeraxs>
+				<search_path add="C:\Program Files (x86)\AXSEM\SDCC\include" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libmf\include" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libmf\source" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libmf\builtsource" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libmfcrypto\include" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libmfcrypto\source" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libaxdvk2\include" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libaxdvk2\source" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libaxdvk2\builtsource" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libax5031\include" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libax5031\source" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libax5042\include" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libax5042\source" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libax5043\include" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libax5043\source" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libax5051\include" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libax5051\source" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libaxdsp\include" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libaxdsp\source" />
+				<search_path add="C:\Program Files (x86)\AXSEM\AXSDB\libaxdsp\builtsource" />
+				<search_path add="C:\Users\Waviot\Documents\AXSEM\AXSEM_SPI\AXSEM_SPI\" />
+				<advanced>
+					<options flash_erase="1" />
+				</advanced>
+			</debuggeraxs>
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

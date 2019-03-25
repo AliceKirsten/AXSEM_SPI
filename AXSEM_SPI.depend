@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1553513336 source:c:\users\waviot\documents\axsem\axsem_spi\axsem_spi\main.c
+	<mcs51/8051.h>
+	"port.h"
+	"lmx_regs.h"
+
+1553510704 c:\users\waviot\documents\axsem\axsem_spi\axsem_spi\port\port.h
+	<stdint.h>
+	"ax8052regaddr.h"
+	"ax8052f143.h"
+
+1552913920 c:\users\waviot\documents\axsem\axsem_spi\axsem_spi\mcu\axcompiler.h
+	<stdbool.h>
+
+1552913920 c:\users\waviot\documents\axsem\axsem_spi\axsem_spi\mcu\ax8052.h
+	<axcompiler.h>
+
+1552913920 c:\users\waviot\documents\axsem\axsem_spi\axsem_spi\mcu\ax8052regaddr.h
+
+1552913920 c:\users\waviot\documents\axsem\axsem_spi\axsem_spi\mcu\ax8052f143.h
+	<axcompiler.h>
+
+1553510750 source:c:\users\waviot\documents\axsem\axsem_spi\axsem_spi\port\port.c
+	"port.h"
+
+1553272826 c:\users\waviot\documents\axsem\axsem_spi\axsem_spi\port\lmx_regs.h
+	<stdint.h>
+
+1553272809 source:c:\users\waviot\documents\axsem\axsem_spi\axsem_spi\port\lmx_api.c
+	"lmx_regs.h"
+
