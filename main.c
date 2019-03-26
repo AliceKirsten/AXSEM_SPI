@@ -40,6 +40,7 @@ uint8_t _sdcc_external_startup(void)
 void main(void)
 {
     uint16_t delay = 0;
+    uint32_t readback = 0;
 
     periph_init();
 
@@ -62,10 +63,12 @@ void main(void)
     r13_bits.dld_tol = 5;       //Fpd = Fosc_in < 30 MHz
     LMX_SET_R13_VALUES(&lmx_regs, &r13_bits);
 
+    r7_bits.mux_select = 10;    //pull to gnd
+    r7_bits.mux_pinmode = 1;    //default
+    r7_bits.mux_inv = 1;        //inverse mux output
     r7_bits.ld_select = 4;      //readback function
     r7_bits.ld_pinmode = 1;     //push-pull mode
-    r7_bits.mux_select = 0;     //pull to gnd
-    r7_bits.mux_pinmode = 1;    //default
+    r7_bits.ld_inv = 1;         //inverse ld output
     LMX_SET_R7_VALUES(&lmx_regs, &r7_bits);
 
     r5_bits.bufen_dis = 1;      //bufen pin disabled
@@ -121,7 +124,8 @@ void main(void)
 
     while(1)
     {
-        lmx_regs.r6_data = lmx_spi_readpacket();
+
+        readback = lmx_spi_readpacket();
 #if (!USE_HARDWARE_SPI)
         led_toggle();
 #endif

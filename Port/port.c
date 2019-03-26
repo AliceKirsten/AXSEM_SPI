@@ -31,7 +31,6 @@ void lmx_spi_writepacket(uint32_t data)
     uint8_t d2 = (data & 0x0000FF00) >> 8;
     uint8_t d1 = (data & 0x000000FF);
 
-    FPGA_CS_LO
     LMX_CS_LO
 
     LMX_PUTC(d4)
@@ -40,7 +39,6 @@ void lmx_spi_writepacket(uint32_t data)
     LMX_PUTC(d1)
 
     LMX_CS_HI
-    FPGA_CS_HI
 }
 
 uint32_t lmx_spi_readpacket()
