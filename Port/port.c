@@ -7,6 +7,10 @@
 
 void periph_init()
 {
+    FPGA_CS_HI
+    LMX_CS_HI
+    LMX_ENABLE
+
     /* init GPIO */
     CS_PDIR  |= (FPGA_CS|LMX_LE);
     USR_PDIR |= (LMX_MOSI|LMX_CLK|LMX_CE);
@@ -18,19 +22,16 @@ void periph_init()
 #else
     USR_PDIR |= LED;
 #endif
-    FPGA_CS_HI
-    LMX_ENABLE
-    LMX_CS_HI
 }
 
-uint8_t d1, d2, d3, d4;
 void lmx_spi_writepacket(uint32_t data)
 {
-    d4 = (data & 0xFF000000) >> 24;
-    d3 = (data & 0x00FF0000) >> 16;
-    d2 = (data & 0x0000FF00) >> 8;
-    d1 = (data & 0x000000FF);
+    uint8_t d4 = (data & 0xFF000000) >> 24;
+    uint8_t d3 = (data & 0x00FF0000) >> 16;
+    uint8_t d2 = (data & 0x0000FF00) >> 8;
+    uint8_t d1 = (data & 0x000000FF);
 
+    FPGA_CS_LO
     LMX_CS_LO
 
     LMX_PUTC(d4)
@@ -39,10 +40,12 @@ void lmx_spi_writepacket(uint32_t data)
     LMX_PUTC(d1)
 
     LMX_CS_HI
+    FPGA_CS_HI
 }
 
 uint32_t lmx_spi_readpacket()
 {
+    uint32_t d1, d2, d3, d4;
     uint32_t data = 0;
 
     LMX_GETC(d4)
@@ -88,9 +91,9 @@ inline uint8_t lmx_getc()
         //clock high
         USR_POUT |= LMX_CLK;
         //shift data (msb first!)
+        c <<= 1;
         //set data
         if (USR_POUT & LMX_MISO) c |= 1;
-        c <<= 1;
         //clock low
         USR_POUT &= ~LMX_CLK;
     } while (++i < 8);

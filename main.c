@@ -10,16 +10,20 @@ uint8_t coldstart = 1; /* caution: initialization with 1 is necessary! Variables
 _LMX_R15_bits r15_bits;
 _LMX_R7_bits r7_bits;
 _LMX_R5_bits r5_bits;
+_LMX_R4_bits r4_bits;
 _LMX_R3_bits r3_bits;
 _LMX_R2_bits r2_bits;
 _LMX_R1_bits r1_bits;
 _LMX_R0_bits r0_bits;
 LMX_REGS_TypeDef lmx_regs;
+
 uint8_t _sdcc_external_startup(void)
 {
-    /* Slow, PRESC /1, no cal. Does NOT enable LPOSC. LPOSC is enabled upon configuring WTCFGA (MODE_TX_PERIODIC and receive_ack()) */
-    LPOSCCONFIG = 0x09;
-    LPXOSCGM = 0x8A;
+    /* No SysClock divider */
+    CLKCON = 0x00;
+
+    /* Both XOSC and LPXOSC are unconnected and disabled */
+    MISCCTRL = 0x03;
 
     /* data pointer selector use DPTR0 */
     DPS = 0;
@@ -52,15 +56,16 @@ void main(void)
     r15_bits.vco_capcode = 128;
     LMX_SET_R15_VALUES(&lmx_regs, &r15_bits);
 
-    r7_bits.ld_pinmode = 3;
-    r7_bits.fl_select = 4;
-    r7_bits.mux_pinmode = 1;
-    r7_bits.mux_select = 10;
+    r7_bits.ld_pinmode = 1;
+    r7_bits.ld_select = 4;
     LMX_SET_R7_VALUES(&lmx_regs, &r7_bits);
 
     r5_bits.osc_freq = 0;
     r5_bits.reset = 0;
     LMX_SET_R5_VALUES(&lmx_regs, &r5_bits);
+
+    r4_bits.fl_toc = 4095;  //max fastlock timeout
+    LMX_SET_R4_VALUES(&lmx_regs, &r4_bits);
 
     r3_bits.vco_div = 18;
     r3_bits.outb_pwr = 47;
@@ -77,7 +82,8 @@ void main(void)
     r1_bits.pll_r = 1;
     LMX_SET_R1_VALUES(&lmx_regs, &r1_bits);
 
-    r0_bits.no_fcal = 0;
+    r0_bits.id = 1;         //readback part id
+    r0_bits.no_fcal = 1;
     r0_bits.pll_n = 75;
     r0_bits.pll_num = 1;
     LMX_SET_R0_VALUES(&lmx_regs, &r0_bits);
@@ -100,7 +106,8 @@ void main(void)
     //wait 20 ms
     while(delay++ < 5678);
 
-    //program r0 again
+    //program r0 again with freq calibration instruction
+    r0_bits.no_fcal = 0;
     lmx_spi_writepacket(lmx_regs.r0_data);
 
     while(1)
