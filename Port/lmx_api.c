@@ -87,16 +87,16 @@
 //LMX2581 reset registers values
 #define LMX_R0_DEF_VAL              0x00000000
 #define LMX_R1_DEF_VAL              0x00000001
-#define LMX_R2_DEF_VAL              0x0C000012
+#define LMX_R2_DEF_VAL              0x04000002
 #define LMX_R3_DEF_VAL              0x20000003
 #define LMX_R4_DEF_VAL              0x00000004
 #define LMX_R5_DEF_VAL              0x00000005
 #define LMX_R6_DEF_VAL              0x00000406
-#define LMX_R7_DEF_VAL              0x00001007
+#define LMX_R7_DEF_VAL              0x00000007
 #define LMX_R8_DEF_VAL              0x207ddbf8
 #define LMX_R9_DEF_VAL              0x03c7c039
 #define LMX_R10_DEF_VAL             0x210050ca
-#define LMX_R13_DEF_VAL             0x0000410d
+#define LMX_R13_DEF_VAL             0x0000810d
 #define LMX_R15_DEF_VAL             0x021fe00f
 
 //registers address enumeration
