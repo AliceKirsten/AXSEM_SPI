@@ -7,6 +7,30 @@
  extern "C" {
 #endif /* __cplusplus */
 
+//registers address enumeration
+typedef enum
+{
+    R0 = 0x00,
+    R1,
+    R2,
+    R3,
+    R4,
+    R5,
+    R6,
+    R7,
+    R8,
+    R9,
+    R10,
+    R13 = 0x0D,
+    R15 = 0x0F
+} LMX_REG;
+
+#define IS_LMX_REG(x)   ((x == R0)  || (x == R1)  || (x == R2) || \
+                         (x == R3)  || (x == R4)  || (x == R5) || \
+                         (x == R6)  || (x == R7)  || (x == R8) || \
+                         (x == R9)  || (x == R10) ||              \
+                         (x == R13) || (x == R15))
+
 /* LMX2581 registers structure */
 typedef struct
 {
@@ -92,6 +116,7 @@ typedef struct
 typedef struct
 {
     uint32_t uwire_lock;
+    uint32_t rd_addr;
 } _LMX_R6_bits;
 
 /* Register R7 bitfield structure */
@@ -123,17 +148,11 @@ typedef struct
     uint32_t vco_cap_man;
 } _LMX_R15_bits;
 
+inline void LMX_SET_R5_INIT_VALUE(LMX_REGS_TypeDef* lmxr);
 inline void LMX_SET_DEF_REG_VALUES(LMX_REGS_TypeDef* lmxr);
-void LMX_SET_R0_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R0_bits* bits);
-void LMX_SET_R1_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R1_bits* bits);
-void LMX_SET_R2_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R2_bits* bits);
-void LMX_SET_R3_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R3_bits* bits);
-void LMX_SET_R4_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R4_bits* bits);
-void LMX_SET_R5_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R5_bits* bits);
-void LMX_SET_R6_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R6_bits* bits);
-void LMX_SET_R7_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R7_bits* bits);
-void LMX_SET_R13_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R13_bits* bits);
-void LMX_SET_R15_VALUES(LMX_REGS_TypeDef* lmxr, _LMX_R15_bits* bits);
+
+void lmx_config_default(LMX_REGS_TypeDef* lmxr);
+uint8_t lmx_set_dividers(LMX_REGS_TypeDef* lmxr, uint32_t f_out);
 
 #ifdef __cplusplus
 }
