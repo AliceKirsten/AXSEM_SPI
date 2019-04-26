@@ -19,7 +19,11 @@
 					<Add option="-mmcs51" />
 					<Add option="--debug" />
 					<Add directory="Mcu" />
+					<Add directory="Drv" />
 					<Add directory="Port" />
+					<Add directory="Libmf" />
+					<Add directory="Drv/atrf/pal" />
+					<Add directory="Drv/atrf/tal" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -46,6 +50,52 @@
 		<ExtraCommands>
 			<Add after='cmd /c &quot;packihx &lt;$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).ihx &gt;$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).hex&quot;' />
 		</ExtraCommands>
+		<Unit filename="Drv/at86rf215.h" />
+		<Unit filename="Drv/atrf_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Drv/atrf_init.h" />
+		<Unit filename="Drv/axradio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Drv/axradio.h" />
+		<Unit filename="Drv/easyax5043.h" />
+		<Unit filename="Drv/lmx_api.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Drv/lmx_regs.h" />
+		<Unit filename="Drv/nbfi.h" />
+		<Unit filename="Drv/pal_trx_spi_block_mode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Drv/pal_trx_spi_block_mode.h" />
+		<Unit filename="Drv/radio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Drv/radio.h" />
+		<Unit filename="Libmf/crc32ansib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Libmf/crc32table.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Libmf/libmfcrc.h" />
+		<Unit filename="Libmf/libmfradio.h" />
+		<Unit filename="Libmf/pn9bits.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Libmf/pn9buf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Libmf/pn9byte.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Libmf/radioreset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Libmf/radiowrfifo.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Mcu/ax8052.h" />
 		<Unit filename="Mcu/ax8052f131.h" />
 		<Unit filename="Mcu/ax8052f142.h" />
@@ -53,10 +103,7 @@
 		<Unit filename="Mcu/ax8052f151.h" />
 		<Unit filename="Mcu/ax8052regaddr.h" />
 		<Unit filename="Mcu/axcompiler.h" />
-		<Unit filename="Port/lmx_api.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Port/lmx_regs.h" />
+		<Unit filename="Port/compiler.h" />
 		<Unit filename="Port/port.c">
 			<Option compilerVar="CC" />
 		</Unit>

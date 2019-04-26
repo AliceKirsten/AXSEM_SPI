@@ -7,79 +7,68 @@
 
 void periph_init()
 {
-    FPGA_CS_HI
-    LMX_CS_HI
+    /* set GPIO levels */
     LMX_ENABLE
+    ATRF_CS = 1;
+    FPGA_CS = 1;
+    LMX_CS = 1;
 
-    /* init GPIO */
-    CS_PDIR  |= (FPGA_CS|LMX_LE);
-    USR_PDIR |= (LMX_MOSI|LMX_CLK|LMX_CE);
+    /* init GPIO as outputs */
+    AT_DIR  |= (ATRF_CS_MASK);
+    CS_DIR  |= (FPGA_CS_MASK|LMX_CS_MASK);
+    SPI_DIR |= (SPI_MOSI_MASK|SPI_CLK_MASK|LMX_CE_MASK);
 
 #if (USE_HARDWARE_SPI)
     /* init SPI */
     SPI_MODE = LMX_SPMODE;
     SPI_CLKCFG = LMX_CLKSRC;
 #else
-    USR_PDIR |= LED;
+    SPI_DIR |= LED_MASK;
 #endif
 }
 
-void lmx_spi_writepacket(uint32_t data)
+void spi_writepacket(uint8_t* data, uint16_t length)
 {
-    uint8_t d4 = (data & 0xFF000000) >> 24;
-    uint8_t d3 = (data & 0x00FF0000) >> 16;
-    uint8_t d2 = (data & 0x0000FF00) >> 8;
-    uint8_t d1 = (data & 0x000000FF);
+    uint8_t i;
 
-    LMX_CS_LO
-
-    LMX_PUTC(d4)
-    LMX_PUTC(d3)
-    LMX_PUTC(d2)
-    LMX_PUTC(d1)
-
-    LMX_CS_HI
+    for (i = 0; i < length; i++) PUTC(data[i])
 }
 
-uint32_t lmx_spi_readpacket()
+void spi_readpacket(uint8_t* data, uint16_t length)
 {
-    uint32_t d1, d2, d3, d4;
-    uint32_t data = 0;
+    uint8_t i;
 
-    LMX_GETC(d4)
-    LMX_GETC(d3)
-    LMX_GETC(d2)
-    LMX_GETC(d1)
+    for (i = 0; i < length; i++) GETC(data[i])
+}
 
-    data = (uint32_t)((d4 << 24)    |
-                      (d3 << 16)    |
-                      (d2 << 8)     |
-                      (d1));
-    return data;
+void delay_ms(uint32_t ticks)
+{
+    uint32_t t = 0;
+    while(t++ < ticks);
 }
 
 #if (!USE_HARDWARE_SPI)
-inline void lmx_putc(uint8_t c)
+inline void putc(uint8_t c)
 {
     uint8_t i = 0;
 
     do
     {
         //set data
-        if (c & 0x80) USR_POUT |= LMX_MOSI;
-        else USR_POUT &= ~LMX_MOSI;
+        if (c & 0x80) SPI_MOSI = 1;
+        else SPI_MOSI = 0;
         //clock high
-        USR_POUT |= LMX_CLK;
+        SPI_CLK = 1;
         //shift data (msb first!)
         c <<= 1;
         //clock low
-        USR_POUT &= ~LMX_CLK;
+        SPI_CLK = 0;
     } while (++i < 8);
     //pull mosi to low after transmission
-    USR_POUT &= ~LMX_MOSI;
+    SPI_MOSI = 0;
 }
 
-inline uint8_t lmx_getc()
+inline uint8_t getc()
 {
     uint8_t i = 0;
     uint8_t c = 0;
@@ -87,29 +76,30 @@ inline uint8_t lmx_getc()
     do
     {
         //clock high
-        USR_POUT |= LMX_CLK;
+        SPI_CLK = 1;
         //shift data (msb first!)
         c <<= 1;
         //set data
-        if (USR_POUT & LMX_MISO) c |= 1;
+        c |= SPI_MISO;
         //clock low
-        USR_POUT &= ~LMX_CLK;
+        SPI_CLK = 0;
+
     } while (++i < 8);
     return c;
 }
 
 void led_on()
 {
-    USR_POUT |= LED;
+    LED = 1;
 }
 
 void led_off()
 {
-    USR_POUT &= ~LED;
+    LED = 0;
 }
 
 void led_toggle()
 {
-    USR_POUT ^= LED;
+    LED ^= 1;
 }
 #endif
